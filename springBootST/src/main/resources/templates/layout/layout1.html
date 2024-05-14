@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!--/*layout을 적용하기위한 네임스페이스 지정*/-->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:th="http://www.thymeleaf.org">
+	  
+<head>
+	<title>Layout page</title>
+</head>	 
+ 
+<body>
+	
+	<div>
+		<h3>Sample Layout Header</h3>
+	</div>
+	
+	<!--/*fragment를 이용하여 추후 다른 파일에서 해당부분만 개발을 할수 있음*/-->
+	<div layout:fragment="content">
+		<p>Page content goes here</p>
+	</div>
+	
+	<div>
+		<h3>Sample Layout Footer</h3>
+	</div>
+	
+	<th:block layout:fragment="script">
+		
+	</th:block>
+	
+</body>
+	  
+</html>
