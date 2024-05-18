@@ -3,17 +3,16 @@ package com.boot.s1.repository;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-import javax.swing.border.Border;
-
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
 
 import com.boot.s1.domain.Board;
 
-import groovyjarjarantlr4.v4.parse.GrammarTreeVisitor.option_return;
-import lombok.Builder;
 import lombok.extern.log4j.Log4j2;
 
 @SpringBootTest
@@ -26,7 +25,7 @@ public class BoardRepositoryTest {
 	@Test
 	public void insertTest() {
 //		1 ~ 100 까지 각각 title, content, writer 등록, 번호는 자동으로 증가
-		IntStream.range(1,100).forEach(i -> {
+		IntStream.range(1,101).forEach(i -> {
 			Board board = Board.builder()
 					.title("title ..." + i)
 					.content("content ... " + i)
@@ -65,13 +64,27 @@ public class BoardRepositoryTest {
 		boardRepository.save(board);
 	}
 	
-	@Test
-	public void deleteTest() {
-//		삭제할 게시판의 번호
-		Long bno = 100L;
-//		해당 번호 데이터 삭제
-		boardRepository.deleteById(bno);
-	}
+//	@Test
+//	public void deleteTest() {
+////		삭제할 게시판의 번호
+//		Long bno = 100L;
+////		해당 번호 데이터 삭제
+//		boardRepository.deleteById(bno);
+//	}
 	
 //	수정이나 삭제시에 select문을 실행하여 기존에 존재하는 엔터티 객체를 영속 컨텍스트에 추가하여 데이터베이스와 동기화 하기위한 준비를 해야함(update와 delete)
+	
+	@Test
+	public void pagingTest() {
+		//1 page order by desc
+		Pageable pageable = PageRequest.of(0, 10, Sort.by("bno").descending());
+		
+		Page<Board> result = boardRepository.findAll(pageable);
+
+//		페이징 확인
+		log.info("total count : " + result.getTotalElements());
+		log.info("total pages : " + result.getTotalPages());
+		log.info("total number : " + result.getNumber());
+		log.info("total size : " + result.getSize());
+	}
 }
