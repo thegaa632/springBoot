@@ -3,82 +3,88 @@
 <!--/* */ 사용시 해당 코드를 아예무시하여 출력하지 않음-->
 <!--/*thymeleaf는 :th=""를 사용하여 model로 전달된 데이터를 출력한다. th는 thymeleaf 적용 문법 */-->
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="UTF-8">
-		<title>Title</title>	
-	</head>
-	<body>
-		<h4>[[${List}]]</h4>
-		<hr>
-		<h4 th:text="${List}"></h4>
-		
-		<!--/* 임시 변수 선언시 */-->
-		<div th:with="num1 = ${10}, num2 = ${20}">
-			<h4 th:text="${num1 + num2}"></h4>
-		</div>
-		
-		<!--/* 반복문 처리 방식 th:each, <th:block> */-->
-		<ul>
-			<li th:each="test: ${List}" th:text="${test}"></li>
-		</ul>
-		
-		<ul>
-			<th:block th:each="test: ${List}">
-				<li>[[${test}]]</li>
-			</th:block>
-		</ul>
-		
-		<!--/* 반복문 내부에 변수 추가 index/count/size/first/last/odd/even등 이용가능 status변수라고 부름 */-->
-		<ul>
-			<li th:each="test,status: ${List}">
-				[[${status.index}]] -- [[${test}]]
-			</li> 
-		</ul>
-		
-		<!--/* 제어문 th:if, th:unless, th:switch 이 중에 if와 unless는 별도로 각각 사용이 가능*/-->
-		<ul>
-			<li th:each="test,status: ${List}">
-				<span th:if="${status.odd}"> ODD -- [[${test}]]</span>
-				<span th:unless="${status.odd}"> EVEN -- [[${test}]]</span>
-			</li> 
-		</ul>
-		
-		<!--? 사용시 앞 선 방식보다 편하게 이항, 삼항 처리가 가능함-->
-		<ul>
-			<li th:each="test,status: ${List}">
-				<span th:text="${status.odd} ? 'ODD -- '+${test}"></span>
-			</li> 
-		</ul>
-		
-		<!--삼항연산자의 경우-->
-		<ul>
-			<li th:each="test,status: ${List}">
-				<span th:text="${status.odd} ? 'ODD --'+${test} : 'EVEN --'+${test}"></span>
-			</li> 
-		</ul>
-		
-		<!--th:switch 문의 경우-->
-		<ul>
-			<li th:each="test,status: ${List}">
-				<th:block th:switch="${status.index % 3}">
-					<span th:case="0">0</span>
-					<span th:case="1">1</span>
-					<span th:case="2">2</span>
-				</th:block>
-			</li>
-		</ul>
-		
-		<!-- 링크 처리의 경우 @{/}로 처리 -->
-		<a th:href="@{/hellow}">go to hellow</a><hr>
-		
-		<!-- 추가로 쿼리 스트링 처리시 key=value로 형태가 필요한 파라미터의 경우 ()로 묶어준다. -->
-		<a th:href="@{/hellow(name = 'abc', age = '20')}">go to hellow</a><hr>
-		
-		<!-- 만약 한글이나 공백을 적으면 자동으로 인코딩 해줌 -->
-		<a th:href="@{/hellow(name = '한글', age = '22')}">go to hellow</a><hr>
-		
-		<!-- 배열의 경우 같은 이름의 파라미터 값을 자동으로 처리함, 에러로 나오지만 실제로는 동작함 -->
-		<!--<a th:href="@{/hellow(types = ${new String[]{'aa', 'bb', 'cc'}}, age = '22')}">go to hellow</a>-->
 
-	</body>
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+
+<body>
+	<h4>[[${List}]]</h4>
+	<hr>
+	<h4 th:text="${List}"></h4>
+
+	<!--/* 임시 변수 선언시 */-->
+	<div th:with="num1 = ${10}, num2 = ${20}">
+		<h4 th:text="${num1 + num2}"></h4>
+	</div>
+
+	<!--/* 반복문 처리 방식 th:each, <th:block> */-->
+	<ul>
+		<li th:each="test: ${List}" th:text="${test}"></li>
+	</ul>
+
+	<ul>
+		<th:block th:each="test: ${List}">
+			<li>[[${test}]]</li>
+		</th:block>
+	</ul>
+
+	<!--/* 반복문 내부에 변수 추가 index/count/size/first/last/odd/even등 이용가능 status변수라고 부름 */-->
+	<ul>
+		<li th:each="test,status: ${List}">
+			[[${status.index}]] -- [[${test}]]
+		</li>
+	</ul>
+
+	<!--/* 제어문 th:if, th:unless, th:switch 이 중에 if와 unless는 별도로 각각 사용이 가능*/-->
+	<ul>
+		<li th:each="test,status: ${List}">
+			<span th:if="${status.odd}"> ODD -- [[${test}]]</span>
+			<span th:unless="${status.odd}"> EVEN -- [[${test}]]</span>
+		</li>
+	</ul>
+
+	<!--? 사용시 앞 선 방식보다 편하게 이항, 삼항 처리가 가능함-->
+	<ul>
+		<li th:each="test,status: ${List}">
+			<span th:text="${status.odd} ? 'ODD -- '+${test}"></span>
+		</li>
+	</ul>
+
+	<!--삼항연산자의 경우-->
+	<ul>
+		<li th:each="test,status: ${List}">
+			<span th:text="${status.odd} ? 'ODD --'+${test} : 'EVEN --'+${test}"></span>
+		</li>
+	</ul>
+
+	<!--th:switch 문의 경우-->
+	<ul>
+		<li th:each="test,status: ${List}">
+			<th:block th:switch="${status.index % 3}">
+				<span th:case="0">0</span>
+				<span th:case="1">1</span>
+				<span th:case="2">2</span>
+			</th:block>
+		</li>
+	</ul>
+
+	<!-- 링크 처리의 경우 @{/}로 처리 -->
+	<a th:href="@{/hellow}">go to hellow</a>
+	<hr>
+
+	<!-- 추가로 쿼리 스트링 처리시 key=value로 형태가 필요한 파라미터의 경우 ()로 묶어준다. -->
+	<a th:href="@{/hellow(name = 'abc', age = '20')}">go to hellow</a>
+	<hr>
+
+	<!-- 만약 한글이나 공백을 적으면 자동으로 인코딩 해줌 -->
+	<a th:href="@{/hellow(name = '한글', age = '22')}">go to hellow</a>
+	<hr>
+
+	<!-- 배열의 경우 같은 이름의 파라미터 값을 자동으로 처리함, 에러로 나오지만 실제로는 동작함 -->
+	<!--<a th:href="@{/hellow(types = ${new String[]{'aa', 'bb', 'cc'}}, age = '22')}">go to hellow</a>-->
+
+</body>
+
 </html>
