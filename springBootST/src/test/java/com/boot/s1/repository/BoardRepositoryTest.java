@@ -12,7 +12,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Page;
 
 import com.boot.s1.domain.Board;
-import com.boot.s1.repository.search.BoardSearchImpl;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -22,7 +21,7 @@ public class BoardRepositoryTest {
 
 	@Autowired
 	private BoardRepository boardRepository;
-	
+
 //	@Test
 //	public void insertTest() {
 ////		1 ~ 100 까지 각각 title, content, writer 등록, 번호는 자동으로 증가
@@ -39,17 +38,17 @@ public class BoardRepositoryTest {
 //		});
 //	}
 	
-	@Test
-	public void selectTest() {
-//		검색할 번호
-		Long bno = 100L;
-//		해당 번호로 게시판의 엔터티 id 찾기
-		Optional<Board> result = boardRepository.findById(bno);
-//		예외처리 후 board에 저장
-		Board board = result.orElseThrow();
-//		결과를 표시
-		log.info(board);
-	}
+//	@Test
+//	public void selectTest() {
+////		검색할 번호
+//		Long bno = 100L;
+////		해당 번호로 게시판의 엔터티 id 찾기
+//		Optional<Board> result = boardRepository.findById(bno);
+////		예외처리 후 board에 저장
+//		Board board = result.orElseThrow();
+////		결과를 표시
+//		log.info(board);
+//	}
 	
 //	@Test
 //	public void updateTest() {
@@ -94,7 +93,18 @@ public class BoardRepositoryTest {
 		//2 page order by desc
 		log.info("search1Test 실행");
 		Pageable pageable = PageRequest.of(1, 10, Sort.by("bno").descending());
-		
-		boardRepository.(pageable);
+
+		boardRepository.search1(pageable);
+	}
+	@Test
+	public void searchAllTest() {
+		log.info("searchAllTest 실행");
+
+		String[] types = {"t", "c", "w"};
+		String keyword = "1";
+		Pageable pageable = PageRequest.of(0,10, Sort.by("bno").descending());
+
+		Page<Board> result = boardRepository.searchAll(types, keyword, pageable);
+
 	}
 }

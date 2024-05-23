@@ -74,6 +74,3 @@ sourceSets {
     }
 }
 
-clean {
-    delete "build/generated"
-}
