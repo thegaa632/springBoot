@@ -79,6 +79,6 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
 		List<Board> list = query.fetch();
 		long count = query.fetchCount();
 
-		return null;
+		return new PageImpl<>(list, pageable, count);
 	}
 }

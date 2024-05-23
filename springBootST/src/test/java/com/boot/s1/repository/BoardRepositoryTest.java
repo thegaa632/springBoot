@@ -81,7 +81,7 @@ public class BoardRepositoryTest {
 		
 		Page<Board> result = boardRepository.findAll(pageable);
 
-//		페이징 확인
+		//페이징 확인
 		log.info("total count : " + result.getTotalElements());
 		log.info("total pages : " + result.getTotalPages());
 		log.info("total number : " + result.getNumber());
@@ -106,5 +106,15 @@ public class BoardRepositoryTest {
 
 		Page<Board> result = boardRepository.searchAll(types, keyword, pageable);
 
+		//total page
+		log.info(result.getTotalPages());
+		//page size
+		log.info(result.getSize());
+		//page number
+		log.info(result.getNumber());
+		//prev next
+		log.info(result.hasPrevious() + " : " + result.hasNext());
+
+		result.getContent().forEach(board -> log.info(board));
 	}
 }
