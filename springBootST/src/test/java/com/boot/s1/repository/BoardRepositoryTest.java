@@ -22,21 +22,21 @@ public class BoardRepositoryTest {
 	@Autowired
 	private BoardRepository boardRepository;
 
-//	@Test
-//	public void insertTest() {
-////		1 ~ 100 까지 각각 title, content, writer 등록, 번호는 자동으로 증가
-//		IntStream.range(1,101).forEach(i -> {
-//			Board board = Board.builder()
-//					.title("title ..." + i)
-//					.content("content ... " + i)
-//					.writer("writer ... " + i)
-//					.build();
-////			해당 결과를 저장
-//			Board result = boardRepository.save(board);
-////			로그로 출력
-//			log.info("bno: " + result.getBno());
-//		});
-//	}
+	@Test
+	public void insertTest() {
+//		1 ~ 100 까지 각각 title, content, writer 등록, 번호는 자동으로 증가
+		IntStream.range(1,101).forEach(i -> {
+			Board board = Board.builder()
+					.title("title ..." + i)
+					.content("content ... " + i)
+					.writer("writer ... " + i)
+					.build();
+//			해당 결과를 저장
+			Board result = boardRepository.save(board);
+//			로그로 출력
+			log.info("bno: " + result.getBno());
+		});
+	}
 	
 //	@Test
 //	public void selectTest() {

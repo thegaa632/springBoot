@@ -10,6 +10,8 @@ import com.boot.s1.domain.Board;
 import com.boot.s1.repository.BoardRepository;
 import lombok.extern.log4j.Log4j2;
 
+import java.util.Optional;
+
 @Service
 @Log4j2
 @RequiredArgsConstructor
@@ -19,6 +21,7 @@ public class BoardServiceImpl implements BoardService {
     private final ModelMapper modelMapper;
     private final BoardRepository boardRepository;
 
+//  등록 작업
     @Override
     public long register(BoardDTO boardDTO) {
         if (boardDTO == null) {
@@ -32,5 +35,40 @@ public class BoardServiceImpl implements BoardService {
             return bno;
 
     }
+// 조회 작업
+    @Override
+    public BoardDTO readOne(Long bno) {
+
+        Optional<Board> result = boardRepository.findById(bno);
+
+        Board board = result.orElseThrow();
+
+        BoardDTO boardDTO = modelMapper.map(board, BoardDTO.class);
+
+        return boardDTO;
+    }
+
+//  수정 작업
+    @Override
+    public void modify(BoardDTO boardDTO) {
+
+        Optional<Board> result = boardRepository.findById(boardDTO.getBno());
+
+        Board board = result.orElseThrow();
+
+        board.change(boardDTO.getTitle(), boardDTO.getContent());
+
+        boardRepository.save(board);
+    }
+
+//  삭제 작업
+    @Override
+    public void remove(Long bno) {
+
+        boardRepository.deleteById(bno);
+
+    }
+
+
 
 }
