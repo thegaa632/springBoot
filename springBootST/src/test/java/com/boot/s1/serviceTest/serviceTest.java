@@ -56,6 +56,7 @@ public class serviceTest {
             log.info("result : " + result);
         } catch (Exception e) {
             log.error("정상 삭제 됨");
+
         }
 
     }
