@@ -1,16 +1,22 @@
 package com.boot.s1.service;
 
 import com.boot.s1.dto.BoardDTO;
+import com.boot.s1.dto.PageRequestDTO;
+import com.boot.s1.dto.PageResponseDTO;
 import com.boot.s1.repository.search.BoardSearch;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.boot.s1.domain.Board;
 import com.boot.s1.repository.BoardRepository;
 import lombok.extern.log4j.Log4j2;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -69,6 +75,23 @@ public class BoardServiceImpl implements BoardService {
 
     }
 
+//  검색 작업
+    @Override
+    public PageResponseDTO<BoardDTO> list(PageRequestDTO pageRequestDTO) {
 
+        String[] types = pageRequestDTO.getType();
+        String keyword = pageRequestDTO.getKeyword();
+        Pageable pageable = pageRequestDTO.getPageable();
+        Page<Board> result = boardRepository.searchAll(types, keyword, pageable);
+
+//      Page<Board>를 List<BoardDTO>로 변환
+        List<BoardDTO> dtoList = result.getContent().stream().map(board -> modelMapper.map(board, BoardDTO.class)).collect(Collectors.toList());
+
+        return PageResponseDTO.<BoardDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(dtoList)
+                .total((int) result.getTotalElements())
+                .build();
+    }
 
 }

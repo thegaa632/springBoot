@@ -63,10 +63,13 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
 				switch (type) {
 					case "t" :
 						booleanBuilder.or(board.title.contains(keyword));
+						break;
 					case "c" :
 						booleanBuilder.or(board.content.contains(keyword));
+						break;
 					case "w" :
 						booleanBuilder.or(board.writer.contains(keyword));
+						break;
 				}
 			}
 			query.where(booleanBuilder);

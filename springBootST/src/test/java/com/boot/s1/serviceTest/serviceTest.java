@@ -1,6 +1,8 @@
 package com.boot.s1.serviceTest;
 
 import com.boot.s1.dto.BoardDTO;
+import com.boot.s1.dto.PageRequestDTO;
+import com.boot.s1.dto.PageResponseDTO;
 import com.boot.s1.service.BoardService;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
@@ -58,6 +60,20 @@ public class serviceTest {
             log.error("정상 삭제 됨");
 
         }
+    }
 
+    @Test
+    public void ListTest() {
+
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .type("tcw")
+                .keyword("1")
+                .page(1)
+                .size(10)
+                .build();
+
+        PageResponseDTO<BoardDTO> responseDTO = boardService.list(pageRequestDTO);
+
+        log.info("responseDTO : " + responseDTO);
     }
 }
