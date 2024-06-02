@@ -3,6 +3,8 @@ package com.boot.s1.repository;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
+import com.boot.s1.dto.BoardDTO;
+import com.boot.s1.service.BoardService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +23,8 @@ public class BoardRepositoryTest {
 
 	@Autowired
 	private BoardRepository boardRepository;
+    @Autowired
+    private BoardService boardService;
 
 	@Test
 	public void insertTest() {
@@ -37,7 +41,21 @@ public class BoardRepositoryTest {
 			log.info("bno: " + result.getBno());
 		});
 	}
-	
+
+	@Test
+	public void testRegister() {
+		log.info(boardService.getClass().getName());
+
+		BoardDTO boardDTO = BoardDTO.builder()
+				.title("sample Title...")
+				.content("sample content")
+				.writer("sample writer")
+				.build();
+
+		Long bno = boardService.register(boardDTO);
+		log.info("bno: " + bno);
+	}
+
 //	@Test
 //	public void selectTest() {
 ////		검색할 번호
