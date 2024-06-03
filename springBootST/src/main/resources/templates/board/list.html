@@ -11,7 +11,7 @@
                 </div>
                 <div class="card-body">
                     <h5 class="card-title"> Board List </h5>
-
+                        <!--검색파트-->
                         <div class="row mt-3">
                             <form action="/board/list" method="get">
                                 <div class="col">
@@ -37,7 +37,7 @@
                             </form>
                         </div>
                     </div>
-
+                    <!--리스트 출력 파트-->
                     <table class="table">
                         <thead>
                         <tr>
@@ -57,10 +57,10 @@
                         </tr>
                         </tbody>
                     </table>
-
+                    <!--페이징 파트-->
+                    <div class="clearfix">
                     <div class="float-end">
                         <ul class="pagination flex-wrap">
-
                             <li class="page-item" th:if="${responseDTO.prev}">
                                 <a class="page-link" th:data-num="${responseDTO.start -1}">Previous</a>
                             </li>
@@ -75,6 +75,7 @@
                                 <a class="page-link" th:data-num="${responseDTO.start +1}">Next</a>
                         </ul>
                     </div><!-- float-end 끝-->
+                    </div>
                 </div><!-- card-body 끝-->
             </div><!-- card 끝-->
         </div><!-- col 끝-->
@@ -83,7 +84,30 @@
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
-    console.log("script run.........")
+//페이지 넘기기 이벤트
+    document.querySelector(".pagination").addEventListener("click", function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+
+        const target = e.target
+
+        if(target.tagName !== 'A') {
+            return
+        }
+
+        const num = target.getAttribute("data-num")
+        const formObj = document.querySelector("form")
+        formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
+        formObj.submit();
+    }, false)
+
+//초기화 버튼
+    document.querySelector(".clearBtn").addEventListener("click", function (e) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    self.location = '/board/list'
+    }, false)
 
 </script>
 </html>
