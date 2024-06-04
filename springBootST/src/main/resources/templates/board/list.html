@@ -58,7 +58,7 @@
                         </tbody>
                     </table>
                     <!--페이징 파트-->
-                    <div class="clearfix">
+                    <div class="clearfix"><!--클래스 초기화-->
                     <div class="float-end">
                         <ul class="pagination flex-wrap">
                             <li class="page-item" th:if="${responseDTO.prev}">
@@ -72,7 +72,7 @@
                             </th:block>
 
                             <li class="page-item" th:if="${responseDTO.next}">
-                                <a class="page-link" th:data-num="${responseDTO.start +1}">Next</a>
+                                <a class="page-link" th:data-num="${responseDTO.start +10}">Next</a>
                         </ul>
                     </div><!-- float-end 끝-->
                     </div>
@@ -109,5 +109,11 @@
     self.location = '/board/list'
     }, false)
 
+//modal 창 등록 확인 정상이면 bno를 출력
+    const result = [[${result}]]
+
+    if(result) {
+        alert(result)
+    }
 </script>
 </html>

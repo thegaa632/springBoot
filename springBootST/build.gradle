@@ -30,10 +30,11 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.0'
+
+	/* 등록 처리 관련 */
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-	implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.0'
-	
 	/* thymeleaf 관련 */
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
