@@ -32,6 +32,10 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.0'
 
+	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+
+
 	/* 등록 처리 관련 */
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
