@@ -3,6 +3,8 @@ package com.boot.s1.controller;
 import com.boot.s1.domain.Board;
 import com.boot.s1.dto.PageRequestDTO;
 import com.boot.s1.dto.PageResponseDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +24,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/board")
 @Log4j2
 @RequiredArgsConstructor
+@Tag(name = "Controller", description = "API endpoints")
 public class BoardController {
 
     private final BoardService boardService;
     @GetMapping("/list")
+    @Operation(summary = "Get list", description = "example response")
     public void list(PageRequestDTO pageRequestDTO, Model model) {
 
         PageResponseDTO<BoardDTO> responseDTO = boardService.list(pageRequestDTO);
@@ -38,11 +42,13 @@ public class BoardController {
 //    등록 파트
 //    화면단 표시
     @GetMapping("/register")
+    @Operation(summary = "Get register", description = "register response")
     public void registerGET(BoardDTO boardDTO) {
 
     }
 //    실 데이터 처리
     @PostMapping("/register")
+    @Operation(summary = "Post register", description = "register data")
     public String registerPOST(@Valid BoardDTO boardDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         log.info("board POST register");
@@ -64,6 +70,7 @@ public class BoardController {
 
 //    조회/수정 파트
     @GetMapping({"/read", "/modify"})
+    @Operation(summary = "Get Read And Modify", description = "Read And Modify response")
     public void read(Long bno, PageRequestDTO pageRequestDTO, Model model) {
 
         BoardDTO boardDTO = boardService.readOne(bno);
@@ -74,6 +81,7 @@ public class BoardController {
     }
 
     @PostMapping("/modify")
+    @Operation(summary = "Post Modify", description = "Modify data")
     public String modify(PageRequestDTO pageRequestDTO, @Valid BoardDTO boardDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         log.info("board modify post ... " + boardDTO);
 
@@ -101,6 +109,7 @@ public class BoardController {
 //    삭제 파트
 
     @PostMapping("/remove")
+    @Operation(summary = "Post Reamove", description = "remove data")
     public String remove(Long bno, RedirectAttributes redirectAttributes) {
 
         log.info("remove post ... " + bno);
