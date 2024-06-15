@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.stream.IntStream;
 
 import com.boot.s1.dto.BoardDTO;
+import com.boot.s1.dto.BoardListReplyCountDTO;
 import com.boot.s1.service.BoardService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,5 +135,28 @@ public class BoardRepositoryTest {
 		log.info(result.hasPrevious() + " : " + result.hasNext());
 
 		result.getContent().forEach(board -> log.info(board));
+	}
+
+	@Test
+	public void setReplyCountTest() {
+
+		String[] types = {"t", "c", "w"};
+
+		String keyword = "1";
+
+		Pageable pageable = PageRequest.of(0,10, Sort.by("bno").descending());
+
+		Page<BoardListReplyCountDTO> result = boardRepository.searchWithReplyCount(types, keyword, pageable);
+
+		//total page
+		log.info("total page : " + result.getTotalPages());
+		//page size
+		log.info("page size : " + result.getSize());
+		//pageNumber
+		log.info("pageNumber : " + result.getNumber());
+		//perv next
+		log.info("perv and next : " + result.hasPrevious() + " : " + result.hasNext());
+
+		result.getContent().forEach(board -> log.info("content : " + board));
 	}
 }

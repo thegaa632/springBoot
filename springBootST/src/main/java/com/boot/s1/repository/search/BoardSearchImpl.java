@@ -1,9 +1,8 @@
 package com.boot.s1.repository.search;
 
-import com.boot.s1.domain.Board;
-import com.boot.s1.domain.QBoard;
+import com.boot.s1.domain.*;
+import com.boot.s1.dto.BoardListReplyCountDTO;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
 
@@ -15,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardSearch {
 
@@ -83,5 +81,55 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
 		long count = query.fetchCount();
 
 		return new PageImpl<>(list, pageable, count);
+	}
+
+	@Override
+	public Page<BoardListReplyCountDTO> searchWithReplyCount(String[] types, String keyword, Pageable pageable) {
+
+		QBoard board = QBoard.board;
+		QReply reply = QReply.reply;
+
+		JPQLQuery<Board> query = from(board);
+		//leftJion 시 on을 사용해서 조인조건지정, groupBy로 처리 후 게시물당 처리
+		query.leftJoin(reply).on(reply.board.eq(board));
+
+		query.groupBy(board);
+
+		//검색조건 추가
+		if((types != null && types.length > 0) && keyword != null) {
+			BooleanBuilder booleanBuilder = new BooleanBuilder();
+			for (String type: types) {
+				switch (type) {
+					case "t" :
+						booleanBuilder.or(board.title.contains(keyword));
+						break;
+					case "c" :
+						booleanBuilder.or(board.content.contains(keyword));
+						break;
+					case "w" :
+						booleanBuilder.or(board.writer.contains(keyword));
+						break;
+				}
+			} // end for
+			query.where(booleanBuilder);
+		}
+
+		//bno > 0
+		query.where(board.bno.gt(0L));
+
+		JPQLQuery<BoardListReplyCountDTO> dtoQuery = query.select(Projections
+				.bean(BoardListReplyCountDTO.class,
+						board.bno,
+						board.title,
+						board.writer,
+						board.regDate,
+						reply.count().as("replyCount")
+						));
+
+		this.getQuerydsl().applyPagination(pageable, dtoQuery);
+		List<BoardListReplyCountDTO> dtoList = dtoQuery.fetch();
+		long count = dtoQuery.fetchCount();
+
+		return new PageImpl<>(dtoList, pageable, count);
 	}
 }
