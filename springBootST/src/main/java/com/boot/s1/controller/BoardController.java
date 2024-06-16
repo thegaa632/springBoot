@@ -1,6 +1,7 @@
 package com.boot.s1.controller;
 
 import com.boot.s1.domain.Board;
+import com.boot.s1.dto.BoardListReplyCountDTO;
 import com.boot.s1.dto.PageRequestDTO;
 import com.boot.s1.dto.PageResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,7 +33,9 @@ public class BoardController {
     @Operation(summary = "Get list", description = "example response")
     public void list(PageRequestDTO pageRequestDTO, Model model) {
 
-        PageResponseDTO<BoardDTO> responseDTO = boardService.list(pageRequestDTO);
+//        PageResponseDTO<BoardDTO> responseDTO = boardService.list(pageRequestDTO);
+        PageResponseDTO<BoardListReplyCountDTO> responseDTO = boardService.listWithReplyCount(pageRequestDTO);
+
 
 //      데이터 받았나 확인
         log.info("List : responseDTO :" + responseDTO);
