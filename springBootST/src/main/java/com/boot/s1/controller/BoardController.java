@@ -110,7 +110,6 @@ public class BoardController {
     }
 
 //    삭제 파트
-
     @PostMapping("/remove")
     @Operation(summary = "Post Reamove", description = "remove data")
     public String remove(Long bno, RedirectAttributes redirectAttributes) {
