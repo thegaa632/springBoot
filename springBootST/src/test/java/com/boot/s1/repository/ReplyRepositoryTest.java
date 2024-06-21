@@ -22,7 +22,7 @@ public class ReplyRepositoryTest {
     public void InsertTest() {
 
         //실제 있는 bno 사용
-        Long bno = 100L;
+        Long bno = 99L;
 
         Board board = Board.builder().bno(bno).build();
 

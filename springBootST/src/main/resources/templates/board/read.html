@@ -7,7 +7,7 @@
     <title>Board Read</title>
 </head>
 <div layout:fragment = "content">
-    <script src = "https://cdn.jsdelivr/net/npm/axios/dist/axios.min.js"></script>
+    <script src = "https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src = "/js/reply.js"></script>
     <div class = "row mt-3">
         <div class = "col">
@@ -82,5 +82,10 @@
     <script src="/js/reply.js"></script>
 </div><!-- end layout fragement -->
 
-<script layout:fragment="script" th:inline="javascript"></script>
+<script layout:fragment="script" th:inline="javascript">
+
+const bno = [[${dto.bno}]]
+get1(bno);
+
+</script>
 </html>

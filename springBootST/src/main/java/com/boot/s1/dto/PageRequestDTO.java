@@ -53,7 +53,7 @@ public class PageRequestDTO {
             }
             if(keyword != null){
                 try {
-                    builder.append("keyword=" + URLEncoder.encode(keyword, "UTF-8"));
+                    builder.append("&keyword=" + URLEncoder.encode(keyword, "UTF-8"));
                 } catch (UnsupportedEncodingException e) {
                 }
             }
