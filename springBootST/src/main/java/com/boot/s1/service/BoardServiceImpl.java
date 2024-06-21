@@ -28,21 +28,21 @@ public class BoardServiceImpl implements BoardService {
     private final ModelMapper modelMapper;
     private final BoardRepository boardRepository;
 
-//  등록 작업
+    //  등록 작업
     @Override
     public long register(BoardDTO boardDTO) {
         if (boardDTO == null) {
             throw new IllegalArgumentException("BoardDTO 가 null 입니다.");
         }
-            //modelMapper 주입
-            Board board = modelMapper.map(boardDTO, Board.class);
-            //boardRepository 주입
-            long bno = boardRepository.save(board).getBno();
+        //modelMapper 주입
+        Board board = modelMapper.map(boardDTO, Board.class);
+        //boardRepository 주입
+        long bno = boardRepository.save(board).getBno();
 
-            return bno;
+        return bno;
 
     }
-// 조회 작업
+    // 조회 작업
     @Override
     public BoardDTO readOne(Long bno) {
 
@@ -55,7 +55,7 @@ public class BoardServiceImpl implements BoardService {
         return boardDTO;
     }
 
-//  수정 작업
+    //  수정 작업
     @Override
     public void modify(BoardDTO boardDTO) {
 
@@ -68,7 +68,7 @@ public class BoardServiceImpl implements BoardService {
         boardRepository.save(board);
     }
 
-//  삭제 작업
+    //  삭제 작업
     @Override
     public void remove(Long bno) {
 
@@ -76,7 +76,7 @@ public class BoardServiceImpl implements BoardService {
 
     }
 
-//  검색 작업
+    //  검색 작업
     @Override
     public PageResponseDTO<BoardDTO> list(PageRequestDTO pageRequestDTO) {
 
@@ -95,7 +95,7 @@ public class BoardServiceImpl implements BoardService {
                 .build();
     }
 
-//   댓글 표시
+    //   댓글 표시
     @Override
     public PageResponseDTO<BoardListReplyCountDTO> listWithReplyCount(PageRequestDTO pageRequestDTO) {
 

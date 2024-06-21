@@ -23,7 +23,7 @@ public class PageRequestDTO {
     @Builder.Default
     private int size = 10;
 
-//  검색어 타입
+    //  검색어 타입
     private String type;
 
     private String keyword;
@@ -36,11 +36,11 @@ public class PageRequestDTO {
         }
         return type.split("");
     }
-//  페이징 처리를 위한 타입의 문자열 반환(가변 인자 사용한 유연한 입력어 처리)
+    //  페이징 처리를 위한 타입의 문자열 반환(가변 인자 사용한 유연한 입력어 처리)
     public Pageable getPageable(String...props) {
         return PageRequest.of(this.page -1, this.size, Sort.by(props).descending());
     }
-//    검색 조건과 페이징 조건을 문자열로 구성함
+    //    검색 조건과 페이징 조건을 문자열로 구성함
     public String getLink() {
         if(link == null) {
             StringBuilder builder = new StringBuilder();
@@ -57,7 +57,7 @@ public class PageRequestDTO {
                 } catch (UnsupportedEncodingException e) {
                 }
             }
-                link = builder.toString();
+            link = builder.toString();
         }
         return link;
     }

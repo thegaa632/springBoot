@@ -14,14 +14,14 @@ public class PageResponseDTO<E> {
     private int size;
     private int total;
 
-//  시작 페이지 번호
+    //  시작 페이지 번호
     private int start;
-//  끝 페이지 번호
+    //  끝 페이지 번호
     private int end;
 
-//  이전 페이지의 존재 여부
+    //  이전 페이지의 존재 여부
     private boolean prev;
-//  다음 페이지의 존재 여부
+    //  다음 페이지의 존재 여부
     private boolean next;
 
     private List<E> dtoList;

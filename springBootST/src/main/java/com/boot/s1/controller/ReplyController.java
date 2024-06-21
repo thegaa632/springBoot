@@ -1,6 +1,5 @@
 package com.boot.s1.controller;
 
-import com.boot.s1.domain.Reply;
 import com.boot.s1.dto.PageRequestDTO;
 import com.boot.s1.dto.PageResponseDTO;
 import com.boot.s1.dto.ReplyDTO;
@@ -66,8 +65,8 @@ public class ReplyController {
         return replyDTO;
     }
 
-    @Operation(summary = "Read Reply", description = "GET 방식으로 특정한 댓글 조회")
-    @GetMapping(value = "/{rno}")
+    @Operation(summary = "Read Reply", description = "Delete 방식으로 특정한 댓글 조회")
+    @DeleteMapping(value = "/{rno}")
     public Map<String, Long> remove(@PathVariable("rno") Long rno) {
 
         replyService.remove(rno);
@@ -80,8 +79,8 @@ public class ReplyController {
     }
 
     @Operation(summary = "Modify Reply", description = "PUT 방식으로 특정한 댓글 수정")
-    @GetMapping(value = "/{rno}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, Long> remove(@PathVariable("rno") Long rno, @RequestBody ReplyDTO replyDTO) {
+    @PutMapping(value = "/{rno}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, Long> Modify(@PathVariable("rno") Long rno, @RequestBody ReplyDTO replyDTO) {
 
         //번호 일치
         replyDTO.setRno(rno);
