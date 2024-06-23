@@ -126,6 +126,7 @@ function printPages(data) {
     replyPageing.innerHTML = pageStr;
 }
 
+//goList는 새로운 댓글이 달릴시 마지막 페이지의 호출 여부를 판단
 function printReplies(page, size, goList) {
 
     getList({bno, page, size, goList}).then(
@@ -139,5 +140,24 @@ function printReplies(page, size, goList) {
 
 printReplies(1,10)
 
+//변수처리의 이유는 나중에 수정같은 작업시 현제 페이지를 유지해야 할 수도있음
+let page = 1
+let size = 10
+
+replyPageing.addEventListener("click", function (e) {
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const target = e.target
+
+    if(!target || target.tagName != 'A') {
+        return
+    }
+
+    const pageNum = target.getAttribute("data-page")
+    page = pageNum
+    printReplies(page, size)
+}, false)
 </script>
 </html>
