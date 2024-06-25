@@ -22,18 +22,24 @@ public class ReplyRepositoryTest {
     public void InsertTest() {
 
         //실제 있는 bno 사용
-        Long bno = 99L;
+        Long bno = 101L;
 
         Board board = Board.builder().bno(bno).build();
 
-        for(int i = 1; i < 91 ; i++) {
-            Reply reply = Reply.builder()
-                    .board(board)
-                    .replyText("댓글 적기")
-                    .replyer("작성자1")
-                    .build();
-            replyRepository.save(reply);
-        }
+        Reply reply = Reply.builder()
+                .board(board)
+                .replyText("123")
+                .replyer("123")
+                .build();
+        replyRepository.save(reply);
+//        for(int i = 1; i < 91 ; i++) {
+//            Reply reply = Reply.builder()
+//                    .board(board)
+//                    .replyText("댓글 적기")
+//                    .replyer("작성자1")
+//                    .build();
+//            replyRepository.save(reply);
+//        }
     }
 
     @Test

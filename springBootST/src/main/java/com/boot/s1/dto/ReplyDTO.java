@@ -21,7 +21,7 @@ public class ReplyDTO {
 
     //어떤 게시물에 댓글을 달았는지 확인용
     @NotNull
-    private Long tno;
+    private Long bno;
 
     @NotEmpty
     private String replyText;

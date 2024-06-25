@@ -17,7 +17,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Register Reply</h5>
-                    <button type="button" class="btn-close" data-dismiss="model" aria-label="Close"></button>
+                    <button type="button" class="btn-close closeRegisterBtn" data-dismiss="model" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="input-group mb-3">
@@ -133,6 +133,26 @@
     closeRegisterBtn.addEventListener("click", function (e) {
         registerModal.hide();
     }, false);
+
+    registerBtn.addEventListener("click", function (e) {
+        const replyObj = {
+            bno : bno,
+            replyText : replyText.value,
+            replyer : replyer.value
+        }
+        console.log(
+            "replyObj 입력값 : " +  JSON.stringify(replyObj)
+        )
+        addReply(replyObj).then(result => {
+            alert("등록번호 : " + result.rno);
+            registerModal.hide();
+            replyText.value = ''
+            replyer.value = ''
+            printPages(1, 10, true); //댓글 목록 갱신용
+        }).catch(e => {
+            alert("예외 발생" + e)
+        })
+    }, false)
 
     function printList(dtoList) {
         let str =  '';

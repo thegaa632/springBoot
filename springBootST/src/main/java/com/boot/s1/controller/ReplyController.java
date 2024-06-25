@@ -32,15 +32,20 @@ public class ReplyController {
             @Valid @RequestBody ReplyDTO replyDTO, BindingResult bindingResult
             ) throws BindException {
 
-        log.info("replyDTO : " + replyDTO);
-
 //      오류시 아래의 코드로 빠지게
         if(bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
 
         Map<String, Long> resultMap = new HashMap<>();
-        resultMap.put("rno", 111L);
+
+        Long rno = replyService.register(replyDTO);
+
+        log.info("rno : " + rno);
+
+        resultMap.put("rno", rno);
+
+        log.info("resultMap : " + resultMap);
 
         return resultMap;
     }
