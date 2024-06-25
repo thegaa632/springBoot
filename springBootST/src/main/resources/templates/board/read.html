@@ -6,9 +6,38 @@
     <meta charset="UTF-8">
     <title>Board Read</title>
 </head>
+
 <div layout:fragment = "content">
     <script src = "https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src = "/js/reply.js"></script>
+
+    <!--modal-->
+    <div class="modal registerModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Register Reply</h5>
+                    <button type="button" class="btn-close" data-dismiss="model" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Reply Text</span>
+                        <input type="text" class="form-control replyText">
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Replyer</span>
+                        <input type="text" class="form-control replyer">
+                    </div>
+                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary registerBtn">Register</button>
+                    <button type="button" class="btn btn-outline-dark closeRegisterBtn">close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class = "row mt-3">
         <div class = "col">
             <div class = "card">
@@ -56,12 +85,16 @@
                             </a>
                         </div>
                     </div>
-
                 </div><!--end card body-->
-
             </div><!--end card-->
         </div><!--end col-->
     </div><!--end row-->
+    <div class="row mt-3">
+        <div class="col">
+            <ul class="pagination replyPaging">
+            </ul>
+        </div>
+    </div>
 
     <div class="row mt-3">
         <div class="col-md-12">
@@ -72,92 +105,105 @@
             </ul>
         </div>
     </div>
-    <div class="row mt-3">
-        <div class="col">
-            <ul class="pagination replyPaging">
-            </ul>
-        </div>
-    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/js/reply.js"></script>
 </div><!-- end layout fragement -->
 
 <script layout:fragment="script" th:inline="javascript">
 
-const bno = [[${dto.bno}]]
+    const bno = [[${dto.bno}]]
 
-const replyList = document.querySelector(`.replyList`) //댓글 목록
-const replyPageing = document.querySelector(`.replyPaging`) //댓글 페이지 목록
+    const replyList = document.querySelector(`.replyList`) //댓글 목록
+    const replyPageing = document.querySelector(`.replyPaging`) //댓글 페이지 목록
 
-function printList(dtoList) {
-    let str =  '';
+    // 댓글 등록 모달
+    const registerModal = new bootstrap.Modal(document.querySelector(".registerModal"));
 
-    if(dtoList && dtoList.length > 0) {
 
-        for(const dto of dtoList) {
+    const registerBtn = document.querySelector(".registerBtn")
+    const replyText = document.querySelector(".replyText")
+    const replyer = document.querySelector(".replyer")
+    const closeRegisterBtn = document.querySelector(".closeRegisterBtn")
 
-            str += `<li class = "list-group-item d-flex replyItem">
+    document.querySelector(".addReplyBtn").addEventListener("click", function (e) {
+        registerModal.show();
+    }, false);
+
+    closeRegisterBtn.addEventListener("click", function (e) {
+        registerModal.hide();
+    }, false);
+
+    function printList(dtoList) {
+        let str =  '';
+
+        if(dtoList && dtoList.length > 0) {
+
+            for(const dto of dtoList) {
+
+                str += `<li class = "list-group-item d-flex replyItem">
                     <span class = "col-2">${dto.rno}</span>
                     <span class = "col-6" data-rno="${dto.rno}">${dto.replyText}</span>
                     <span class = "col-2">${dto.replyer}</span>
                     <span class = "col-2">${dto.regDate}</span>
                     </li>`
+            }
         }
-    }
-    replyList.innerHTML = str;
-}
-
-function printPages(data) {
-
-    //pagination
-    let pageStr = '';
-
-    if(data.prev) {
-        pageStr += `<li class = "page-item"> <a class = "page-link" data-page = "${data.start-1}">PREV</a></li>`
+        replyList.innerHTML = str;
     }
 
-    for(let i = data.start; i <= data.end-1; i++) {
-        pageStr += `<li class="page-item ${i == data.page?"active" : ""}"> <a class = "page-link" data-page = "${i}" > ${i}</a></li>`
+    function printPages(data) {
+
+        //pagination
+        let pageStr = '';
+
+        if(data.prev) {
+            pageStr += `<li class = "page-item"> <a class = "page-link" data-page = "${data.start-1}">PREV</a></li>`
+        }
+
+        for(let i = data.start; i <= data.end-1; i++) {
+            pageStr += `<li class="page-item ${i == data.page?"active" : ""}"> <a class = "page-link" data-page = "${i}" > ${i}</a></li>`
+        }
+
+        if(data.next) {
+            pageStr += `<li class = "page-item"> <a class = "page-link" data-page = "${data.end + 1}">NEXT</a></li>`
+        }
+        replyPageing.innerHTML = pageStr;
     }
 
-    if(data.next) {
-        pageStr += `<li class = "page-item"> <a class = "page-link" data-page = "${data.end + 1}">NEXT</a></li>`
-    }
-    replyPageing.innerHTML = pageStr;
-}
+    //goList는 새로운 댓글이 달릴시 마지막 페이지의 호출 여부를 판단
+    function printReplies(page, size, goList) {
 
-//goList는 새로운 댓글이 달릴시 마지막 페이지의 호출 여부를 판단
-function printReplies(page, size, goList) {
-
-    getList({bno, page, size, goList}).then(
-        data => {
-            printList(data.dtoList) //목록 처리
-            printPages(data) // 페이징 처리
-    }).catch(e => {
-        console.error(e)
-    });
-}
-
-printReplies(1,10)
-
-//변수처리의 이유는 나중에 수정같은 작업시 현제 페이지를 유지해야 할 수도있음
-let page = 1
-let size = 10
-
-replyPageing.addEventListener("click", function (e) {
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    const target = e.target
-
-    if(!target || target.tagName != 'A') {
-        return
+        getList({bno, page, size, goList}).then(
+            data => {
+                printList(data.dtoList) //목록 처리
+                printPages(data) // 페이징 처리
+            }).catch(e => {
+            console.error(e)
+        });
     }
 
-    const pageNum = target.getAttribute("data-page")
-    page = pageNum
-    printReplies(page, size)
-}, false)
+    printReplies(1,10,true);
+
+    //변수처리의 이유는 나중에 수정같은 작업시 현제 페이지를 유지해야 할 수도있음
+    let page = 1
+    let size = 10
+
+    replyPageing.addEventListener("click", function (e) {
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        const target = e.target
+
+        if(!target || target.tagName != 'A') {
+            return
+        }
+
+        const pageNum = target.getAttribute("data-page")
+        page = pageNum
+        printReplies(page, size)
+    }, false)
+
 </script>
 </html>
