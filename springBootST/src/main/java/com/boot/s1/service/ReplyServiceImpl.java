@@ -1,9 +1,11 @@
 package com.boot.s1.service;
 
+import com.boot.s1.domain.Board;
 import com.boot.s1.domain.Reply;
 import com.boot.s1.dto.PageRequestDTO;
 import com.boot.s1.dto.PageResponseDTO;
 import com.boot.s1.dto.ReplyDTO;
+import com.boot.s1.repository.BoardRepository;
 import com.boot.s1.repository.ReplyRepository;
 import lombok.extern.log4j.Log4j2;
 import lombok.RequiredArgsConstructor;
@@ -27,14 +29,17 @@ public class ReplyServiceImpl implements ReplyService{
 
     private final ReplyRepository replyRepository;
 
+    private final BoardRepository boardRepository;
+
     @Override
     public Long register(ReplyDTO replyDTO) {
 
-        log.info("replyDTO : " + replyDTO);
-
         Reply reply = modelMapper.map(replyDTO, Reply.class);
 
-        log.info("reply1 : " + reply);
+        Board board = boardRepository.findById(replyDTO.getBno())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid board id: " + replyDTO.getBno()));
+
+        reply.setBoard(board);
 
         Long rno = replyRepository.save(reply).getRno();
 
