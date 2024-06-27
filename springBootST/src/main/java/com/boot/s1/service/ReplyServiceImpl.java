@@ -36,9 +36,10 @@ public class ReplyServiceImpl implements ReplyService{
 
         Reply reply = modelMapper.map(replyDTO, Reply.class);
 
+        //bno 값을 추가하기 위해 bno 값을 불러옴
         Board board = boardRepository.findById(replyDTO.getBno())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid board id: " + replyDTO.getBno()));
-
+        //reply에 추가
         reply.setBoard(board);
 
         Long rno = replyRepository.save(reply).getRno();
