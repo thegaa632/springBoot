@@ -41,11 +41,7 @@ public class ReplyController {
 
         Long rno = replyService.register(replyDTO);
 
-        log.info("rno : " + rno);
-
         resultMap.put("rno", rno);
-
-        log.info("resultMap : " + resultMap);
 
         return resultMap;
     }

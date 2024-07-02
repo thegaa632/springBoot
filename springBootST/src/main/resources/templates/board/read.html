@@ -231,6 +231,7 @@
     registerBtn.addEventListener("click", function (e) {
         const replyObj = {
             bno : bno,
+            board_bno : bno,
             replyText : replyText.value,
             replyer : replyer.value
         }
@@ -276,11 +277,50 @@
 
         getReply(rno).then(reply => { //댓글의 내용을 모달창에 보여줌
 
+            console.log("reply : ")
             console.log(reply)
         replyHeader.innerHTML = reply.rno
         modifyText.value = reply.replyText
         modifyModal.show()
         }).catch(e => alert('error 남'))
     },false)
+
+    //수정버튼
+    modifyBtn.addEventListener("click", function (e) {
+         const replyObj = {
+             bno:bno,
+             rno:replyHeader.innerHTML,
+             replyText:modifyText.value
+         }
+         modifyReply(replyObj).then(result => {
+             alert(result.rno + "댓글 수정 완료")
+             replyText.value = ''
+             modifyModal.hide()
+             printReplies(page, size)
+         }).catch(e => {
+             console.log(e)
+         })
+    }, false)
+
+    //닫기 버튼
+    closeModifyBtn.addEventListener("click", function (e) {
+        modifyModal.hide()
+    }, false)
+
+    //삭제 버튼
+    removeBtn.addEventListener("click", function (e) {
+
+        removeReply(replyHeader.innerHTML).then(result => {
+            alert(result.rno + "삭제되었습니다.")
+            replyText.value = ''
+            modifyModal.hide()
+
+            page = 1 //이 부분이 없으면 원래 페이지로 이동
+
+            printReplies(page, size)
+        }).catch(e => {
+            console.log(e)
+        })
+    }, false)
 </script>
 </html>

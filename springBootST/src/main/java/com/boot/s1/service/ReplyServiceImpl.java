@@ -31,7 +31,22 @@ public class ReplyServiceImpl implements ReplyService{
 
     private final BoardRepository boardRepository;
 
-    @Override
+//    @Override
+//    public Long register(ReplyDTO replyDTO) {
+//
+//        log.info("replyDTO : " + replyDTO);
+//
+//        Reply reply = modelMapper.map(replyDTO, Reply.class);
+//
+//        log.info("reply1 : " + reply);
+//
+//        Long rno = replyRepository.save(reply).getRno();
+//
+//        log.info("reply rno : " + reply.getRno());
+//
+//        return rno;
+//    }
+
     public Long register(ReplyDTO replyDTO) {
 
         Reply reply = modelMapper.map(replyDTO, Reply.class);
