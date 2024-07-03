@@ -40,9 +40,10 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title replyHeader"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                    <button type="button" class="btn-close"
+                            data-bs-dismiss="modal" aria-label="close"></button>
                 </div>
-                <div class="modal body">
+                <div class="modal-body">
                     <div class="input-group mb-3">
                         <span class="input-group-text">Reply Text</span>
                         <input type="text" class="form-control modifyText">
@@ -224,9 +225,9 @@
         registerModal.show();
     }, false);
 
-    closeRegisterBtn.addEventListener("click", function (e) {
+    document.querySelectorAll(".closeRegisterBtn").forEach(button => button.addEventListener("click", function (e) {
         registerModal.hide();
-    }, false);
+    }), false);
 
     registerBtn.addEventListener("click", function (e) {
         const replyObj = {
@@ -256,7 +257,6 @@
     const modifyText = document.querySelector(".modifyText")
     const modifyBtn = document.querySelector(".modifyBtn")
     const removeBtn = document.querySelector(".removeBtn")
-    const closeModifyBtn = document.querySelector(".closeModifyBtn")
 
     replyList.addEventListener("click", function (e) {
 
@@ -279,9 +279,9 @@
 
             console.log("reply : ")
             console.log(reply)
-        replyHeader.innerHTML = reply.rno
-        modifyText.value = reply.replyText
-        modifyModal.show()
+            replyHeader.innerHTML = reply.rno
+            modifyText.value = reply.replyText
+            modifyModal.show()
         }).catch(e => alert('error 남'))
     },false)
 
@@ -303,9 +303,9 @@
     }, false)
 
     //닫기 버튼
-    closeModifyBtn.addEventListener("click", function (e) {
-        modifyModal.hide()
-    }, false)
+    document.querySelectorAll(".closeModifyBtn").forEach(button => button.addEventListener("click", function (e) {
+        registerModal.hide();
+    }), false);
 
     //삭제 버튼
     removeBtn.addEventListener("click", function (e) {
