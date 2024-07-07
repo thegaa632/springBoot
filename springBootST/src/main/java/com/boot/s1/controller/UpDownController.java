@@ -34,24 +34,24 @@ public class UpDownController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
 
-//        if(upLoadFileDTO.getFiles() != null) {
-//
-//            upLoadFileDTO.getFiles().forEach(multipartFile -> {
-//
-//                String originalName = multipartFile.getOriginalFilename();
-//                log.info(multipartFile.getOriginalFilename());
-//
-//                String uuid = UUID.randomUUID().toString();
-//
-//                Path savePath = Paths.get(upLoadPath, uuid + "_" + originalName);
-//
-//                try {
-//                    multipartFile.transferTo(savePath); //실제 파일 저장함
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            });//end each
-//        }
+        if(upLoadFileDTO.getFiles() != null) {
+
+            upLoadFileDTO.getFiles().forEach(multipartFile -> {
+
+                String originalName = multipartFile.getOriginalFilename();
+                log.info(multipartFile.getOriginalFilename());
+
+                String uuid = UUID.randomUUID().toString();
+
+                Path savePath = Paths.get(upLoadPath, uuid + "_" + originalName);
+
+                try {
+                    multipartFile.transferTo(savePath); //실제 파일 저장함
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });//end each
+        }
 
     }
 }
