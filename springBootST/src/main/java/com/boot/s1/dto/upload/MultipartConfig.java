@@ -1,6 +1,7 @@
 package com.boot.s1.dto.upload;
 
 import jakarta.servlet.MultipartConfigElement;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,12 +16,18 @@ public class MultipartConfig {
         return new StandardServletMultipartResolver();
     }
 
+    @Value("${file.multipart.maxUploadSize:10485760}")
+    private long maxUploadSize;
+
+    @Value("${file.multipart.maxUploadSizePerFile:10485760}")
+    private long maxUploadSizePerFile;
+
     @Bean
     public MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
-        factory.setLocation("c://upload");
-        factory.setMaxRequestSize(DataSize.ofMegabytes(100L));
-        factory.setMaxFileSize(DataSize.ofMegabytes(100L));
+        factory.setMaxRequestSize(DataSize.ofBytes(maxUploadSize));
+        factory.setMaxFileSize(DataSize.ofBytes(maxUploadSizePerFile));
+
 
         return factory.createMultipartConfig();
     }

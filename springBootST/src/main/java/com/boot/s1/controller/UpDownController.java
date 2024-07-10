@@ -5,53 +5,51 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
 @Log4j2
 public class UpDownController {
 
-//    @Value("${com.boot.s1.upload.path}")
-//    private String upLoadPath;
+    @Value("${com.boot.s1.upload.path}")
+    private String upLoadPath;
 
-    @Operation(summary = "UpLoad POST", description = "POST 방식으로 파일 등록함")
-    @RequestMapping(value = "/upload", method = RequestMethod.POST, produces = "application/json", consumes = "multipart/form-data")
-    public ResponseEntity<UpLoadFileDTO> upload(@Parameter(name = "fileName", description = "업로드 파일", in = ParameterIn.QUERY)
-                                                @RequestParam(value = "fileName")
-                                                    String fileName,
-                                                @Parameter(name = "files", description = "업로드 파일")
-                                                @RequestParam(value = "files")
-                                                UpLoadFileDTO files) {
-
-        UpLoadFileDTO result = UpLoadFileDTO.builder().fileName(fileName).build();
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
-
-        if(upLoadFileDTO.getFiles() != null) {
-
-            upLoadFileDTO.getFiles().forEach(multipartFile -> {
-
-                String originalName = multipartFile.getOriginalFilename();
-                log.info(multipartFile.getOriginalFilename());
-
+    @Operation(summary = "POST", description = "POST 방식으로 파일 등록함")
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Map<String, Object>> upload(
+                                                @RequestPart("files")
+                                                List<MultipartFile> files
+                                                ) {
+        log.info("요청한 파일: {}", files);
+        Map<String, Object> response = new HashMap<>();
+            for (MultipartFile file : files) {
+                String originalName = file.getOriginalFilename();
                 String uuid = UUID.randomUUID().toString();
-
                 Path savePath = Paths.get(upLoadPath, uuid + "_" + originalName);
-
                 try {
-                    multipartFile.transferTo(savePath); //실제 파일 저장함
+                    file.transferTo(savePath);
+                    log.info("업로드 된 파일: " + savePath.toString());
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error("업로드 실패", e);
+                    response.put("결과" , "업로드 성공");
+                    return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
                 }
-            });//end each
-        }
-
+            }
+        response.put("결과", "업로드 성공");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
