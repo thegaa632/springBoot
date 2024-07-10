@@ -32,11 +32,10 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.0'
 
-    /* springfox의 경우 */
-//	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
-//	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    /*boot 테스트 */
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    /* springdoc의 경우 */
+    /* springdoc */
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 
     /* 등록 처리 관련 */
@@ -60,15 +59,16 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
 
-    /*queryDsl 관련 */
     /* queryDsl 코드생성 기능 제공 */
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+
     /* queryDsl 라이브러리*/
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    /*썸네일 관련 */
+    implementation 'net.coobird:thumbnailator:0.4.16'
 }
 
 tasks.named('test') {

@@ -2,6 +2,7 @@ package com.boot.s1.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.log4j.Log4j2;
+import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -9,7 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -39,9 +42,16 @@ public class UpDownController {
                 try {
                     file.transferTo(savePath);
                     log.info("업로드 된 파일: " + savePath.toString());
+
+                    //이미지 파일이라면 썸내일 제작
+                    if(Files.probeContentType(savePath).startsWith("image")){
+                        File thumbFile = new File(upLoadPath, "s_" + uuid+ "_"+ originalName);
+
+                        Thumbnailator.createThumbnail(savePath.toFile(), thumbFile, 200,200);
+                    }
                 } catch (IOException e) {
                     log.error("업로드 실패", e);
-                    response.put("결과" , "업로드 성공");
+                    response.put("결과" , "업로드 실패");
                     return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
