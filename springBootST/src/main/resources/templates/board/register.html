@@ -50,9 +50,41 @@
       </div><!--end card-->
     </div><!--end col-->
   </div><!--end row mt-3-->
+
+  <!-- 첨부파일 썸네일 보여줄 부분 -->
+  <div class="row mt-3">
+    <div class="col">
+      <div class="container-fluid d-flex uploadResult" style="flex-wrap: wrap;">
+      </div>
+    </div>
+  </div>
+
+  <!--첨부파일 추가를 위한 모달찰 부분 -->
+  <div class="modal uploadModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">upload Files</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group mb-3">
+            <input type="file" name="files" class="form-control" multiple>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary uploadBtn">Upload</button>
+          <button type="button" class="btn btn-outline-dark CloseUploadBtn">Close</button>
+        </div>
+      </div>
+    </div>
+  </div><!-- register modal -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="/js/upload.js"></script>
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
+
 <!--@vaild 에러 처리 에러내용 alert으로 출력-->
   const errors = [[${errors}]]
   console.log(errors)
@@ -65,5 +97,16 @@
     }
     alert(errorMsg)
   }
+
+  //업로드 모달창
+const uploadModal = new bootstrap.Modal(document.querySelector(".uploadModal"))
+
+document.querySelector(".uploadFileBtn").addEventListener("click",function (e) {
+
+  e.stopPropagation()
+  e.preventDefault()
+  uploadModal.show()
+}, false)
+
 </script>
 </html>
