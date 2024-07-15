@@ -108,5 +108,24 @@ document.querySelector(".uploadFileBtn").addEventListener("click",function (e) {
   uploadModal.show()
 }, false)
 
+document.querySelector(".uploadBtn").addEventListener("click", function (e) {
+  const formObj = new formObj();
+  const fileInput = document.querySelector("input[name='files']")
+
+  console.log("name : " + fileInput.files)
+
+  const files = fileInput.files
+
+  for(let i = 0; i < files.length; i++) {
+    formObj.append("files", files[i]);
+  }
+  uploadToServer(formObj).then(result => {
+    console.log("result : "+ result)
+    uploadModal.hide()
+  }).catch(e => {
+    uploadModal.hide()
+  })
+}, false)
+
 </script>
 </html>
