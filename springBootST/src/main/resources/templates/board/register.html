@@ -130,14 +130,14 @@ document.querySelector(".uploadBtn").addEventListener("click", function (e) {
   })
 }, false)
 
-// uploadToServer(formObj).then(result => {
-//   for (const uploadResult of result) {
-//     showUploadFile(uploadResult)
-//   }
-//   uploadModal.hide()
-// }).catch(e => {
-//   uploadModal.hide
-// })
+uploadToServer(formObj).then(result => {
+  for (const uploadResult of result) {
+    showUploadFile(uploadResult)
+  }
+  uploadModal.hide()
+}).catch(e => {
+  uploadModal.hide
+})
 
 const uploadResult = document.querySelector(".uploadResult")
 
