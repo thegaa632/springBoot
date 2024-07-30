@@ -85,7 +85,8 @@
 
 <script layout:fragment="script" th:inline="javascript">
 
-<!--@vaild 에러 처리 에러내용 alert으로 출력-->
+<!-- 에러처리에러내용alert으로출력-->
+
   const errors = [[${errors}]]
   console.log(errors)
 
@@ -130,22 +131,13 @@ document.querySelector(".uploadBtn").addEventListener("click", function (e) {
   })
 }, false)
 
-// uploadToServer(formObj).then(result => {
-//   for (const uploadResult of result) {
-//     showUploadFile(uploadResult)
-//   }
-//   uploadModal.hide()
-// }).catch(e => {
-//   uploadModal.hide
-// })
-
 const uploadResult = document.querySelector(".uploadResult")
 
 function showUploadFile({uuid, fileName, link}) {
     const str =`<div class="card col-4">
                     <div class="card-header d-flex justify-content-center">
                     ${fileName}
-                    <button class="btn-sm btn-danger" onclick="javascript:removeFile('${uuid}', '${fileName}', this)"></button>
+                    <button class="btn-sm btn-danger" onclick="javascript:removeFile('${uuid}', '${fileName}', this)">X</button>
                     </div>
                         <div class="card-body">
                         <img src="/view/${link}" data-src="${uuid+ "_"+ fileName}" >
