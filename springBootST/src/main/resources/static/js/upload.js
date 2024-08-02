@@ -2,11 +2,11 @@ async function uploadToServer (formObj) {
     console.log("upload to server!")
     console.log(formObj)
 
-    const response = await ({
+    const response = await axios({
         method: 'post',
         url: '/upload',
         data: formObj,
-        hearders: {
+        headers: {
             'Content-Type': 'multipart/form-data'
         },
     });

@@ -109,12 +109,22 @@ document.querySelector(".uploadFileBtn").addEventListener("click",function (e) {
   uploadModal.show()
 }, false)
 
+//업로드 버튼 작동
 document.querySelector(".uploadBtn").addEventListener("click", function (e) {
   const formObj = new FormData();
   const fileInput = document.querySelector("input[name='files']")
 
   console.log("name : " + fileInput.files)
 
+  if (fileInput.files.length > 0) {
+    console.log("파일 목록:");
+
+    // 파일 목록을 순회하며 각 파일의 이름을 출력
+    for (let i = 0; i < fileInput.files.length; i++) {
+      const file = fileInput.files[i];
+      console.log("파일 이름: " + file.name);
+    }
+  }
   const files = fileInput.files
 
   for(let i = 0; i < files.length; i++) {
@@ -133,18 +143,19 @@ document.querySelector(".uploadBtn").addEventListener("click", function (e) {
 
 const uploadResult = document.querySelector(".uploadResult")
 
-// function showUploadFile({uuid, fileName, link}) {
-//     const str =`<div class="card col-4">
-//                     <div class="card-header d-flex justify-content-center">
-//                     ${fileName}
-//                     <button class="btn-sm btn-danger" onclick="javascript:removeFile('${uuid}', '${fileName}', this)">X</button>
-//                     </div>
-//                         <div class="card-body">
-//                         <img src="/view/${link}" data-src="${uuid+ "_"+ fileName}" >
-//                         </div>
-//                 </div><!-- card -->`
-//   uploadResult.innerHTML += str
-// }
+//업로드한 사진 보여주기
+function showUploadFile({uuid, fileName, link}) {
+    const str =`<div class="card col-4">
+                    <div class="card-header d-flex justify-content-center">
+                    ${fileName}
+                    <button class="btn-sm btn-danger" onclick="javascript:removeFile('${uuid}', '${fileName}', this)">X</button>
+                    </div>
+                        <div class="card-body">
+                        <img src="/view/${link}" data-src="${uuid+ "_"+ fileName}" >
+                        </div>
+                </div><!-- card -->`
+  uploadResult.innerHTML += str
+}
 
 function removeFile(uuid, fileName, obj){
   console.log(uuid)

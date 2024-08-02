@@ -66,7 +66,10 @@
                     </table>
                     <!--페이징 파트-->
                     <div class="clearfix"><!--클래스 초기화-->
-                    <div class="float-end">
+                        <div class="float-start">
+                            <button class="btn btn-primary left-button registerBtn">Register</button>
+                        </div>
+                        <div class="float-end">
                         <ul class="pagination flex-wrap">
                             <li class="page-item" th:if="${responseDTO.prev}">
                                 <a class="page-link" th:data-num="${responseDTO.start -1}">Previous</a>
@@ -122,5 +125,10 @@
     if(result) {
         alert(result)
     }
+
+//register 진입
+document.querySelector(".registerBtn").addEventListener("click", function (e) {
+    window.location.href = "register"
+})
 </script>
 </html>
