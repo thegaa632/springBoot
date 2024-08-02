@@ -49,7 +49,10 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
 	public Page<Board> searchAll(String[] types, String keyword, Pageable pageable) {
 
 		QBoard board = QBoard.board;
+		QReply reply = QReply.reply;
+
 		JPQLQuery<Board> query = from(board);
+		query.leftJoin(reply).on(reply.board.eq(board));
 
 		//검색조건과 키워드 관련
 		if ((types != null && types.length > 0) && keyword != null) {

@@ -40,7 +40,7 @@
 
             <div class="my-4">
               <div class="float-end">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary submitBtn">Submit</button>
                 <button type="reset" class="btn btn-secondary">Reset</button>
               </div>
             </div>
@@ -59,7 +59,7 @@
     </div>
   </div>
 
-  <!--첨부파일 추가를 위한 모달찰 부분 -->
+  <!--첨부파일 추가를 위한 모달창 부분 -->
   <div class="modal uploadModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -117,14 +117,15 @@ document.querySelector(".uploadBtn").addEventListener("click", function (e) {
   console.log("name : " + fileInput.files)
 
   if (fileInput.files.length > 0) {
-    console.log("파일 목록:");
-
     // 파일 목록을 순회하며 각 파일의 이름을 출력
     for (let i = 0; i < fileInput.files.length; i++) {
       const file = fileInput.files[i];
       console.log("파일 이름: " + file.name);
     }
+  } else{
+    console.log("파일이 존재하지 않음");
   }
+
   const files = fileInput.files
 
   for(let i = 0; i < files.length; i++) {
@@ -168,5 +169,27 @@ function removeFile(uuid, fileName, obj){
   })
 }
 
+  document.querySelector(".submitBtn").addEventListener("click", function (e) {
+
+    e.preventDefault()
+    e.stopPropagation()
+
+    const target = document.querySelector(".uploadHidden")
+    const uploadFiles = uploadResult.querySelectorAll("img")
+
+    let str = ''
+
+    for (let i = 0; i < uploadFiles.length; i++) {
+      const uploadFile = uploadFiles[i]
+      const imgLink = uploadFile.getAttribute("src")
+
+      str += `<input type = 'hidden' name="'fileNames" value="${imgLink}">`
+    }
+    target.innerHTML = str
+    console.log("태그가 생성되었습니다.")
+
+    document.querySelector("form").submit()
+
+  }, false)
 </script>
 </html>
