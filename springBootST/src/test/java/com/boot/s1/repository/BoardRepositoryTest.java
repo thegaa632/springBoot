@@ -1,6 +1,7 @@
 package com.boot.s1.repository;
 
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.IntStream;
 
 import com.boot.s1.dto.BoardDTO;
@@ -158,5 +159,20 @@ public class BoardRepositoryTest {
 		log.info("perv and next : " + result.hasPrevious() + " : " + result.hasNext());
 
 		result.getContent().forEach(board -> log.info("content : " + board));
+	}
+
+	@Test
+	public void testInsertWithImages() {
+		Board board = Board.builder()
+				.title("image test")
+				.content("첨부파일 테스트중")
+				.writer("tester1")
+				.build();
+
+		for (int i = 0; i < 3; i++) {
+			board.addImage(UUID.randomUUID().toString(), "file" + i + ".jpg");
+		} //end for
+
+        boardRepository.save(board);
 	}
 }

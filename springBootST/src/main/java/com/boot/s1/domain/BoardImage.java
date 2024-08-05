@@ -1,6 +1,6 @@
 package com.boot.s1.domain;
 
-import com.boot.s1.dto.BoardImageDTO;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -29,6 +29,7 @@ public class BoardImage implements Comparable<BoardImage>{
     public int compareTo(BoardImage other) {
         return this.ord - other.ord;
     }
+    //Comparable 인터페이스 사용
 
     public void changeBoard(Board board) {
         this.board = board;

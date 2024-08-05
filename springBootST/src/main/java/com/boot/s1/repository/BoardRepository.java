@@ -13,4 +13,5 @@ public interface BoardRepository extends JpaRepository<Board, Long>, BoardSearch
 	String getTime();
 
 
+
 }

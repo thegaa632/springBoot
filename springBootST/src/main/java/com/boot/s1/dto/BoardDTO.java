@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -26,6 +27,8 @@ public class BoardDTO {
 
     @NotEmpty
     private String content;
+
+    private List<String> fileNames;
 
     private LocalDateTime regDate;
     private LocalDateTime modDate;

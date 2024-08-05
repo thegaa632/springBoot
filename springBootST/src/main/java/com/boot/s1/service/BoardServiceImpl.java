@@ -4,7 +4,6 @@ import com.boot.s1.dto.BoardDTO;
 import com.boot.s1.dto.BoardListReplyCountDTO;
 import com.boot.s1.dto.PageRequestDTO;
 import com.boot.s1.dto.PageResponseDTO;
-import com.boot.s1.repository.search.BoardSearch;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -35,8 +34,11 @@ public class BoardServiceImpl implements BoardService {
             throw new IllegalArgumentException("BoardDTO 가 null 입니다.");
         }
         //modelMapper 주입
-        Board board = modelMapper.map(boardDTO, Board.class);
+        Board board
+//                = modelMapper.map(boardDTO, Board.class);
+
         //boardRepository 주입
+        = dtoToEntity(boardDTO);
         long bno = boardRepository.save(board).getBno();
 
         return bno;
