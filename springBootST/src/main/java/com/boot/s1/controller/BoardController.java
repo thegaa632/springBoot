@@ -59,7 +59,7 @@ public class BoardController {
 
             return "redirect:/board/register";
         }
-        log.info(boardDTO);
+        log.info("확인 : " + boardDTO);
 
         Long bno = boardService.register(boardDTO);
 

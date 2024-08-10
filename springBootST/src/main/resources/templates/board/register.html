@@ -85,7 +85,7 @@
 
 <script layout:fragment="script" th:inline="javascript">
 
-<!-- 에러처리 alert으로출력-->
+<!-- 에러처리, alert으로출력 -->
 
   const errors = [[${errors}]]
   console.log(errors)
@@ -188,7 +188,7 @@ function removeFile(uuid, fileName, obj){
     target.innerHTML = str
     console.log("태그가 생성되었습니다.")
 
-    document.querySelector("form").submit()
+    // document.querySelector("form").submit()
 
   }, false)
 </script>

@@ -1,5 +1,6 @@
 package com.boot.s1.controller;
 
+import com.boot.s1.dto.BoardDTO;
 import com.boot.s1.dto.upload.UpLoadFileDTO;
 import com.boot.s1.dto.upload.UploadResultDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,7 +40,7 @@ public class UpDownController {
             upLoadFileDTO.getFiles().forEach(multipartFile -> {
 
                 String originalFileName = multipartFile.getOriginalFilename();
-                log.info(originalFileName);
+                log.info("originalFileName : " + originalFileName);
                 String uuid = UUID.randomUUID().toString();
                 Path savePath = Paths.get(upLoadPath, uuid+"_"+ originalFileName);
 
