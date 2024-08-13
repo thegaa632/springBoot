@@ -1,12 +1,11 @@
 package com.boot.s1.service;
 
 import com.boot.s1.domain.Board;
-import com.boot.s1.dto.BoardDTO;
-import com.boot.s1.dto.BoardListReplyCountDTO;
-import com.boot.s1.dto.PageRequestDTO;
-import com.boot.s1.dto.PageResponseDTO;
+import com.boot.s1.dto.*;
+import com.boot.s1.repository.BoardRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public interface BoardService {
@@ -21,10 +20,13 @@ public interface BoardService {
 
     PageResponseDTO<BoardDTO> list(PageRequestDTO pageRequestDTO);
 
-//   댓글의 숫자까지 처리함
+//  댓글의 숫자까지 처리함
     PageResponseDTO<BoardListReplyCountDTO> listWithReplyCount(PageRequestDTO pageRequestDTO);
 
-//   이미지 엔티티로 변환
+//  개시글 이미지 댓글 숫자 처리
+    PageResponseDTO<BoardListAllDTO> listWithAll(PageRequestDTO pageRequestDTO);
+
+//  이미지 엔티티로 변환
     default Board dtoToEntity(BoardDTO boardDTO) {
         Board board = Board.builder()
                 .bno(boardDTO.getBno())
@@ -54,10 +56,11 @@ public interface BoardService {
                 .build();
         List<String> fileNames =
                 board.getImageSet().stream().sorted().map(boardImage -> boardImage.getUuid()+
-                        "."+ boardImage.getFileName()).collect(Collectors.toList());
+                        "_"+ boardImage.getFileName()).collect(Collectors.toList());
 
         boardDTO.setFileNames(fileNames);
 
         return boardDTO;
     }
+
 }

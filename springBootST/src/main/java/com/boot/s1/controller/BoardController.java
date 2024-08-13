@@ -1,8 +1,6 @@
 package com.boot.s1.controller;
 
-import com.boot.s1.dto.BoardListReplyCountDTO;
-import com.boot.s1.dto.PageRequestDTO;
-import com.boot.s1.dto.PageResponseDTO;
+import com.boot.s1.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -13,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.boot.s1.service.BoardService;
-import com.boot.s1.dto.BoardDTO;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -29,7 +26,7 @@ public class BoardController {
     public void list(PageRequestDTO pageRequestDTO, Model model) {
 
 //        PageResponseDTO<BoardDTO> responseDTO = boardService.list(pageRequestDTO);
-        PageResponseDTO<BoardListReplyCountDTO> responseDTO = boardService.listWithReplyCount(pageRequestDTO);
+        PageResponseDTO<BoardListAllDTO> responseDTO = boardService.listWithAll(pageRequestDTO);
 
 
 //      데이터 받았나 확인
