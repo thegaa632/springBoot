@@ -6,6 +6,9 @@ import com.boot.s1.dto.BoardListReplyCountDTO;
 import com.boot.s1.dto.PageRequestDTO;
 import com.boot.s1.dto.PageResponseDTO;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public interface BoardService {
 
     long register(BoardDTO boardDTO);
@@ -37,5 +40,24 @@ public interface BoardService {
             });
         }
         return board;
+    }
+
+    default BoardDTO entityToDTO(Board board) {
+
+        BoardDTO boardDTO = BoardDTO.builder()
+                .bno(board.getBno())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .writer(board.getWriter())
+                .regDate(board.getRegDate())
+                .modDate(board.getModDate())
+                .build();
+        List<String> fileNames =
+                board.getImageSet().stream().sorted().map(boardImage -> boardImage.getUuid()+
+                        "."+ boardImage.getFileName()).collect(Collectors.toList());
+
+        boardDTO.setFileNames(fileNames);
+
+        return boardDTO;
     }
 }

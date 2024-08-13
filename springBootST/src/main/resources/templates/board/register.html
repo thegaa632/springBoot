@@ -181,14 +181,16 @@ function removeFile(uuid, fileName, obj){
 
     for (let i = 0; i < uploadFiles.length; i++) {
       const uploadFile = uploadFiles[i]
-      const imgLink = uploadFile.getAttribute("src")
+      const imgLink = uploadFile.getAttribute("data-src")
 
-      str += `<input type = 'hidden' name="'fileNames" value="${imgLink}">`
+      str += `<input type = 'hidden' name="fileNames" value="${imgLink}">`
     }
     target.innerHTML = str
     console.log("태그가 생성되었습니다.")
 
-    document.querySelector("form").submit()
+    if(confirm("등록")) {
+      document.querySelector("form").submit()
+    }
 
   }, false)
 </script>
