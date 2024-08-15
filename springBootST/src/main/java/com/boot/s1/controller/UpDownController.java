@@ -28,6 +28,7 @@ public class UpDownController {
     @Value("${com.boot.s1.upload.path}")
     private String upLoadPath;
 
+    //사진 업로드 업로드시 썸네일용 사진과 일반 사진으로 파일 2개가 업로드 됨 uuid + 파일이름 으로 저장
     @Operation(summary = "POST", description = "POST 방식으로 파일 등록함")
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public List<UploadResultDTO> upload(@ModelAttribute UpLoadFileDTO upLoadFileDTO) {
@@ -53,6 +54,7 @@ public class UpDownController {
 
                         image = true;
 
+                        //썸네일은 s_붙음
                         File thumbFile = new File(upLoadPath, "s_" + uuid+ "_"+ originalFileName);
 
                         Thumbnailator.createThumbnail(savePath.toFile(), thumbFile, 200,200);

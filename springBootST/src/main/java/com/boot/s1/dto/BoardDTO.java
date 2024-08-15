@@ -28,6 +28,7 @@ public class BoardDTO {
     @NotEmpty
     private String content;
 
+//  여러 파일등록을 위한 list 처리
     private List<String> fileNames;
 
     private LocalDateTime regDate;

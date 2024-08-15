@@ -158,6 +158,7 @@ function showUploadFile({uuid, fileName, link}) {
   uploadResult.innerHTML += str
 }
 
+  //사진 삭제
 function removeFile(uuid, fileName, obj){
   console.log(uuid)
   console.log(fileName)
@@ -169,6 +170,7 @@ function removeFile(uuid, fileName, obj){
   })
 }
 
+  //전송 버튼
   document.querySelector(".submitBtn").addEventListener("click", function (e) {
 
     e.preventDefault()

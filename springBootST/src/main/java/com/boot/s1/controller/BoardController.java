@@ -25,15 +25,14 @@ public class BoardController {
     @Operation(summary = "Get list", description = "example response")
     public void list(PageRequestDTO pageRequestDTO, Model model) {
 
-//        PageResponseDTO<BoardDTO> responseDTO = boardService.list(pageRequestDTO);
         PageResponseDTO<BoardListAllDTO> responseDTO = boardService.listWithAll(pageRequestDTO);
-
 
 //      데이터 받았나 확인
         log.info("List : responseDTO :" + responseDTO);
 
         model.addAttribute("responseDTO", responseDTO);
     }
+
 //    등록 파트
 //    화면단 표시
     @GetMapping("/register")
