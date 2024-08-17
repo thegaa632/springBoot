@@ -2,10 +2,8 @@ package com.boot.s1.service;
 
 import com.boot.s1.domain.Board;
 import com.boot.s1.dto.*;
-import com.boot.s1.repository.BoardRepository;
-
+import lombok.extern.log4j.Log4j2;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public interface BoardService {
@@ -37,8 +35,16 @@ public interface BoardService {
 
         if(boardDTO.getFileNames() != null) {
             boardDTO.getFileNames().forEach(fileName ->{
-                String[] arr = fileName.split("_");
-                board.addImage(arr[0], arr[1]);
+//                해당 코드는 파일명에 "_"가 2개 존재하면 작동하지 안음
+//                String[] arr = fileName.split("_", 1);
+//                board.addImage(arr[0], arr[1]);
+
+//                uuid과 구분되는 "_"를 분리하기 위한 첫번째 "_"만 분리하고 나머지는 파일명으로 저장
+                int index = fileName.indexOf("_");
+                    String firstPart = fileName.substring(0, index);
+                    String secondPart = fileName.substring(index + 1);
+                    board.addImage(firstPart, secondPart);
+//                log.info();
             });
         }
         return board;
