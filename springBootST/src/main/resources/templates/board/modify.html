@@ -6,13 +6,16 @@
     <meta charset="UTF-8">
     <title>Board Modify</title>
 </head>
+
 <div layout:fragment = "content">
     <div class = "row mt-3">
         <div class = "col">
             <div class = "card">
+
                 <div class = "card-header">
                     Board Modify
                 </div>
+
                 <div class = "card-body">
                     <form action="@{/board/modify}" method="post" id="f1">
                         <div class = "input-group mb-3">
@@ -53,7 +56,11 @@
                             </div>
                         </div>
                     </form>
-                </div><!--end card body-->
+                </div>
+
+                <div th:if="${list != null}">
+                    <p th:text="${list[0]}">리스트 첫 번째 요소</p>
+                </div>
 
             </div><!--end card-->
         </div><!--end col-->
@@ -62,33 +69,24 @@
     <!--첨부파일 보여주는 부분-->
     <div class="row mt-3">
         <div class="col">
+
             <div class="container-fluid d-flex uploadResult" style="flex-wrap: wrap;">
-<!--                <th:block th:each="fileNames:${dto.fileNames}">-->
-<!--                    <div class="card col-4" th:with= "arr = ${fileName.split('_')}">-->
-<!--                        <div class="card-header d-flex justify-content-center">-->
-<!--                            [[${arr[1]}]]-->
-<!--                            <button class="btn-danger" th:onclick="removeFile([[${arr[0]}]], [[${arr[1]}]], this)">X</button>-->
-<!--                        </div>-->
-<!--                        <div class="card-body">-->
-<!--                            <img th:src="|/view/${fileName}|" th:data-src="${fileName}">-->
-<!--                        </div>-->
-<!--                    </div>&lt;!&ndash;card&ndash;&gt;-->
-<!--                </th:block>-->
 
                 <th:block th:each="fileName : ${dto.fileNames}">
                     <div class="card col-4" th:with="arr=${fileName.split('_')}">
                         <div class="card-header d-flex justify-content-center">
                             [[${arr[1]}]]
                             <button class="btn-danger"
-                                    th:onclick="'removeFile(' + ${arr[0]} + ' ' + ${arr[1]} + ', this)'">X</button>
+                                    th:onclick="'removeFile(' + ${firstPart} + ' ' + ${secondPart} + ', this)'">X</button>
                         </div>
                         <div class="card-body">
                             <img th:src="@{/view/{fileName}(fileName=${fileName})}" th:data-src="${fileName}">
                         </div>
-                    </div><!--card-->
+                    </div>&lt;!&ndash;card&ndash;&gt;
                 </th:block>
 
             </div>
+
         </div>
     </div>
 
@@ -111,7 +109,7 @@
                 </div>
             </div>
         </div>
-    </div><!--register modal-->
+    </div>
 </div><!--end layout fragment-->
 
 <script layout:fragment="script" th:inline="javascript">
@@ -156,7 +154,7 @@
 
         formObj.reset()
         self.location = `/board/list?${link}`
-    }.false)
+    }, false)
 
     // 삭제할 최종 파일 이름
     const removeFileList = [];
