@@ -69,24 +69,24 @@
     <!--첨부파일 보여주는 부분-->
     <div class="row mt-3">
         <div class="col">
-
             <div class="container-fluid d-flex uploadResult" style="flex-wrap: wrap;">
-
                 <th:block th:each="fileName : ${dto.fileNames}">
-                    <div class="card col-4" th:with="arr=${fileName.split('_')}">
+                    <div class="card col-4" th:with="arr=${fileName.indexOf('_')},
+                             firstPart=${#strings.substring(fileName, 0, arr)},
+                             secondPart=${#strings.substring(fileName, arr + 1)}">
                         <div class="card-header d-flex justify-content-center">
-                            [[${arr[1]}]]
-                            <button class="btn-danger"
-                                    th:onclick="'removeFile(' + ${firstPart} + ' ' + ${secondPart} + ', this)'">X</button>
+                            [[${secondPart}]]
+                            <div th:inline="text">
+                                <button class="btn-danger"
+                                        onclick="removeFile('[[${firstPart}]]', '[[${secondPart}]]', this)">X</button>
+                            </div>
                         </div>
                         <div class="card-body">
                             <img th:src="@{/view/{fileName}(fileName=${fileName})}" th:data-src="${fileName}">
                         </div>
-                    </div>&lt;!&ndash;card&ndash;&gt;
+                    </div>
                 </th:block>
-
             </div>
-
         </div>
     </div>
 

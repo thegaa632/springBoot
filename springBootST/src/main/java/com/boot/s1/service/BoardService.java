@@ -35,7 +35,7 @@ public interface BoardService {
 
         if(boardDTO.getFileNames() != null) {
             boardDTO.getFileNames().forEach(fileName ->{
-//                해당 코드는 파일명에 "_"가 2개 존재하면 작동하지 안음
+//                해당 코드는 파일명에 "_"가 2개 존재하면 작동하지 않음
 //                String[] arr = fileName.split("_", 1);
 //                board.addImage(arr[0], arr[1]);
 
