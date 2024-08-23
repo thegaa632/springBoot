@@ -160,6 +160,12 @@
     document.querySelector(".removeBtn").addEventListener("click", function (e) {
         e.preventDefault()
         e.stopPropagation()
+
+        // 화면에 보이는 이미지파일을 form에 추가
+        appendFileData();
+        // 화면에 보이지 않는 이미지 파일을 form에 추가
+
+
         formObj.action = `/board/remove`
 
         formObj.method = 'post'
@@ -201,6 +207,23 @@
             str += `<input type="hidden" name="fileNames" value="${imgLink}">`
         }
         target.innerHTML = str;
+    }
+
+    function appendNotShowData() {
+
+        if(removeFileList.length == 0) {
+            return
+        }
+
+        const target = document.querySelector(".uploadHidden")
+        let str = ''
+
+        for(let i = 0; i < removeFileList.length; i++) {
+            const {uuid, fileName} = removeFileList[i]
+
+            str += `<input type="hidden" name="fileNames" value="${uuid}_${fileName}">`
+        }
+        target.innerHTML += str;
     }
 
     function callRemoveFiles() {
