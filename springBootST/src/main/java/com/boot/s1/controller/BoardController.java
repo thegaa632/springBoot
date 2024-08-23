@@ -138,7 +138,6 @@ public class BoardController {
         for(String fileName:files) {
             Resource resource = new FileSystemResource(
                     uploadPath + File.separator + fileName);
-            String resourceName = resource.getFilename();
 
             try {
                 String contentType = Files.probeContentType(resource.getFile().toPath());
