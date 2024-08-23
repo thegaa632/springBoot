@@ -146,6 +146,13 @@
         e.stopPropagation()
 
         formObj.action = `/board/modify?${link}`
+
+        // 해당 첨부파일을 hidden으로 추가
+        appendFileData();
+
+        // 파일을 삭제
+        callRemoveFiles();
+
         formObj.method = 'post'
         formObj.submit()
     }, false)
@@ -167,7 +174,7 @@
         self.location = `/board/list?${link}`
     }, false)
 
-    // 삭제할 최종 파일 이름
+    // 삭제할 파일 이름
     const removeFileList = [];
     function removeFile(uuid, fileName, obj) {
         if(!confirm("삭제?")) {
@@ -178,6 +185,31 @@
 
         const targetDiv = obj.closest(".card")
         targetDiv.remove();
+    }
+
+    function appendFileData() {
+
+        const target = document.querySelector(".uploadHidden")
+        const uploadFiles = uploadResult.querySelectorAll("img")
+
+        let str = ''
+
+        for(let i = 0; i < uploadFiles.length; i++) {
+            const uploadFile = uploadFiles[i]
+            const imgLink = uploadFile.getAttribute("data-src")
+
+            str += `<input type="hidden" name="fileNames" value="${imgLink}">`
+        }
+        target.innerHTML = str;
+    }
+
+    function callRemoveFiles() {
+
+        removeFileList.forEach(({uuid, fileName}) => {
+            removeFileToServer({uuid, fileName})
+        })
+
+
     }
 
     // 업로드 모달
@@ -192,9 +224,9 @@
 
     document.querySelector(".uploadBtn").addEventListener("click", function (e) {
         const formObj = new FormData();
-        const fileInput = document.querySelector("input[name='file']")
+        const fileInput = document.querySelector("input[name='files']")
 
-        console.log("파일 이름 : " + fileInput.files)
+        // console.log("파일 이름 : " + fileInput.files)
 
         const files = fileInput.files
 
