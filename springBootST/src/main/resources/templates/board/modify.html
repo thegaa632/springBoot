@@ -164,7 +164,7 @@
         // 화면에 보이는 이미지파일을 form에 추가
         appendFileData();
         // 화면에 보이지 않는 이미지 파일을 form에 추가
-
+        appendNotShowData();
 
         formObj.action = `/board/remove`
 
@@ -188,6 +188,8 @@
         }
 
         removeFileList.push({uuid, fileName})
+
+        console.log("removeFileList : " + removeFileList)
 
         const targetDiv = obj.closest(".card")
         targetDiv.remove();
@@ -281,5 +283,7 @@
                 </div><!-- card -->`
         uploadResult.innerHTML += str
     }
+
+
 </script>
 </html>
