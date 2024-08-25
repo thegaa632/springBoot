@@ -20,7 +20,7 @@ public class CustomSecurityConfig {
         return http.build();
     }
 
-//  정적 자원의 처리(단순 css나 js같은 파일에 대한 시큐리티 적용 해제)
+//  정적 자원의 처리(단순 css나 js 같은 파일에 대한 시큐리티 적용 해제)
     public WebSecurityCustomizer webSecurityCustomizer() {
 
         log.info("----------------------web configure----------------------");
