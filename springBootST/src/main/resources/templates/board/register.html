@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       layout:decorate="~{layout/basic.html}">
 <head>
     <meta charset="UTF-8">
@@ -28,7 +29,8 @@
 
             <div class="input-group mb-3">
               <span class="input-group-text">Writer</span>
-              <input type="text" name="writer" class="form-control" placeholder="Writer">
+              <input type="text" name="writer" class="form-control" placeholder="Writer"
+                      th:value="${#authentication.principal.username}" readonly>
             </div>
 
             <div class="input-group mb-3">
@@ -195,5 +197,16 @@ function removeFile(uuid, fileName, obj){
     }
 
   }, false)
+
+  // 인증 관련
+  const auth = [[${authentication}]]
+
+  //자바스크립트로 현재 이용자의 정보를 사용할때는 이래의 코드를 사용함
+  // const auth = [[${authentication.principal}]]
+
+  const error = [[${errors}]]
+
+  console.log("error : " + error);
+
 </script>
 </html>
