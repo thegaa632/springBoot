@@ -1,5 +1,8 @@
 package com.boot.s1.controller;
 
+//페이지 이동 경로 http://localhost:8080/board/list
+//스웨거 이동 경로 http://localhost:8080/swagger-ui/index.html#/up-down-controller/upload
+
 import com.boot.s1.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -9,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -46,6 +50,7 @@ public class BoardController {
 //    등록 파트
 //    화면단 표시
     @GetMapping("/register")
+    @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Get register", description = "register response")
     public void registerGET(BoardDTO boardDTO) {
 
