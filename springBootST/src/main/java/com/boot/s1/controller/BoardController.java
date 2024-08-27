@@ -78,6 +78,7 @@ public class BoardController {
     }
 
 //    조회/수정 파트
+    @PreAuthorize("isAuthenticated()")
     @GetMapping({"/read", "/modify"})
     @Operation(summary = "Get Read And Modify", description = "Read And Modify response")
     public void read(Long bno, PageRequestDTO pageRequestDTO, Model model) {
