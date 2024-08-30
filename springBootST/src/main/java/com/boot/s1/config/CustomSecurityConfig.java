@@ -1,6 +1,7 @@
 package com.boot.s1.config;
 
 import com.boot.s1.security.CustomUserDetailService;
+import com.boot.s1.security.handler.Custom403Handler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -37,12 +39,14 @@ public class CustomSecurityConfig {
 
         log.info("----------------------configure----------------------");
 
+        //커스텀 로그인 페이지
         http.formLogin().loginPage("/member/login");
 
 //      현재 프로젝트에서는 springSecurity가 기본으로 제공하는 CSRF 토큰을 비활성, rest api 이용 서버의 경우 session 기반이 아니라
 //      stateless 하기 때문에 서버에 인증 정보를 보관하지 않아 사용이 불필요하다. 만약 활성화를 하게 된다면 form에 csrf를 히든으로
 //      input하면 된다.
 
+        //csrf 토큰 비활성화
         http.csrf().disable();
 
         http.rememberMe()
@@ -52,6 +56,11 @@ public class CustomSecurityConfig {
                 .tokenValiditySeconds(60*60*24*30);
 
         return http.build();
+    }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new Custom403Handler();
     }
 
     @Bean
@@ -71,4 +80,5 @@ public class CustomSecurityConfig {
 
         return (web) -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
+
 }

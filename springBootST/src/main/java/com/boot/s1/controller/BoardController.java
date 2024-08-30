@@ -118,6 +118,7 @@ public class BoardController {
 
 //    삭제 파트
     @PostMapping("/remove")
+    @PreAuthorize("principal.username == #boardDTO.writer") // 시큐리티를 이용한 기존 작성자와 로그인한 작성자가 같은지 확인
     @Operation(summary = "Post Reamove", description = "remove data")
     public String remove(BoardDTO boardDTO, RedirectAttributes redirectAttributes) {
 
